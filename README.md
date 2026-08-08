@@ -6,12 +6,6 @@ Weatherly is a clean and responsive weather application that provides real-time 
 
 Built as a hands-on React project focused on **API integration, component-based architecture, responsive UI design, and modern frontend development**.
 
-<p align="center">
-  <a href="YOUR_LIVE_DEMO_URL">🌐 Live Demo</a>
-  •
-  <a href="https://github.com/CodeAsh215/Weatherly">📂 GitHub</a>
-</p>
-
 ---
 
 ## ✨ Features
@@ -29,18 +23,6 @@ Built as a hands-on React project focused on **API integration, component-based 
 * 📱 Responsive design
 * 🎨 Modern gradient-based UI
 * 🧩 Component-based React architecture
-
----
-
-## 📸 Preview
-
-### Desktop
-
-![Weatherly Desktop Screenshot](./screenshots/desktop.png)
-
-### Mobile
-
-![Weatherly Mobile Screenshot](./screenshots/mobile.png)
 
 ---
 
