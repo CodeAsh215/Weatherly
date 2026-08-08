@@ -1,41 +1,91 @@
-import { Sun } from 'lucide-react'
+import {
+    Sun,
+    CloudSun,
+    Cloud,
+    CloudRain,
+    CloudSnow,
+    CloudLightning,
+} from "lucide-react"
 
-const HourlyForecast = () => {
+const formatTime = (time) => {
+
+    return new Date(time).toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit",
+    })
+}
+
+const getWeatherIcon = (code) => {
+
+    if (code === 0) return Sun
+
+    if (code >= 1 && code <= 3) return CloudSun
+
+    if (code >= 51 && code <= 67) return CloudRain
+
+    if (code >= 71 && code <= 77) return CloudSnow
+
+    if (code >= 80 && code <= 82) return CloudRain
+
+    if (code >= 95) return CloudLightning
+
+    return Cloud
+}
+
+const HourlyForecast = ({ weather }) => {
+
+    if (!weather) {
+        return null
+    }
+
+    const hourlyData = weather.hourly.time
+        .map((time, index) => ({
+            time,
+            temperature: weather.hourly.temperature_2m[index],
+            weatherCode: weather.hourly.weather_code[index],
+        }))
+        .slice(0, 12)
+
     return (
-        <div className='p-1 border border-gray-400 w-[90%] mx-auto mt-3 rounded-lg'>
-            <span className='font-bold ml-1'>Today's Forecast</span>
+        <div className="w-[90%] mx-auto mt-6">
 
-            <div className='flex gap-1 p-1'>
-                <div className='flex flex-col items-center border border-gray-400 p-1 rounded-md'>
-                    <span>12 PM</span>
-                    <Sun />
-                    <span>29°C</span>
-                </div>
+            <h2 className="font-bold text-lg mb-3">
+                Hourly Forecast
+            </h2>
 
-                <div className='flex flex-col items-center border border-gray-400 p-1 rounded-md'>
-                    <span>12 PM</span>
-                    <Sun />
-                    <span>29°C</span>
-                </div>
+            <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
 
-                <div className='flex flex-col items-center border border-gray-400 p-1 rounded-md'>
-                    <span>12 PM</span>
-                    <Sun />
-                    <span>29°C</span>
-                </div>
+                {hourlyData.map((hour, index) => {
 
-                <div className='flex flex-col items-center border border-gray-400 p-1 rounded-md'>
-                    <span>12 PM</span>
-                    <Sun />
-                    <span>29°C</span>
-                </div>
+                    const Icon = getWeatherIcon(
+                        hour.weatherCode
+                    )
 
-                <div className='flex flex-col items-center border border-gray-400 p-1 rounded-md'>
-                    <span>12 PM</span>
-                    <Sun />
-                    <span>29°C</span>
-                </div>
+                    return (
+                        <div
+                            key={index}
+                            className="min-w-[78px] rounded-2xl bg-white/40 backdrop-blur-sm p-3 text-center"
+                        >
+
+                            <p className="text-xs text-gray-600 whitespace-nowrap">
+                                {formatTime(hour.time)}
+                            </p>
+
+                            <Icon
+                                size={25}
+                                className="mx-auto my-3 text-gray-700"
+                            />
+
+                            <p className="text-lg font-semibold text-gray-800">
+                                {Math.round(hour.temperature)}°
+                            </p>
+
+                        </div>
+                    )
+                })}
+
             </div>
+
         </div>
     )
 }

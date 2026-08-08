@@ -1,45 +1,100 @@
-import { CloudRain } from 'lucide-react'
+import {
+    Sun,
+    CloudSun,
+    Cloud,
+    CloudRain,
+    CloudSnow,
+    CloudLightning,
+} from "lucide-react"
 
-const WeeklyForecast = () => {
+const getWeatherIcon = (code) => {
+
+    if (code === 0) return Sun
+
+    if (code >= 1 && code <= 3) return CloudSun
+
+    if (code >= 51 && code <= 67) return CloudRain
+
+    if (code >= 71 && code <= 77) return CloudSnow
+
+    if (code >= 80 && code <= 82) return CloudRain
+
+    if (code >= 95) return CloudLightning
+
+    return Cloud
+}
+
+const formatDay = (date) => {
+
+    return new Date(date).toLocaleDateString(
+        "en-US",
+        {
+            weekday: "short",
+        }
+    )
+}
+
+const WeeklyForecast = ({ weather }) => {
+
+    if (!weather) {
+        return null
+    }
+
+    const weeklyData = weather.daily.time
+        .map((date, index) => ({
+            date,
+            max: weather.daily.temperature_2m_max[index],
+            min: weather.daily.temperature_2m_min[index],
+            weatherCode: weather.daily.weather_code[index],
+        }))
+        .slice(0, 7)
+
     return (
-        <div className='w-[90%] mx-auto mt-3 p-1'>
-            <span className='font-bold '>7-Day Forecast</span>
+        <div className="w-[90%] mx-auto mt-6 pb-6">
 
-            <div className='flex justify-around border-y border-gray-400 mt-1'>
-                <span>Sun,9 Aug</span>
-                <span className='flex gap-1'><CloudRain />Rain</span>
-                <span>H 45°C | L 25°C</span>
+            <h2 className="font-bold text-lg mb-3">
+                7-Day Forecast
+            </h2>
+
+            <div className="space-y-2">
+
+                {weeklyData.map((day, index) => {
+
+                    const Icon = getWeatherIcon(
+                        day.weatherCode
+                    )
+
+                    return (
+                        <div
+                            key={day.date}
+                            className="grid grid-cols-[60px_1fr_50px_50px] items-center rounded-2xl bg-white/40 backdrop-blur-sm p-3"
+                        >
+
+                            <p className="font-medium text-gray-800">
+                                {index === 0
+                                    ? "Today"
+                                    : formatDay(day.date)}
+                            </p>
+
+                            <Icon
+                                size={22}
+                                className="mx-auto text-gray-700"
+                            />
+
+                            <p className="font-semibold text-gray-800 text-right">
+                                {Math.round(day.max)}°
+                            </p>
+
+                            <p className="text-gray-500 text-right">
+                                {Math.round(day.min)}°
+                            </p>
+
+                        </div>
+                    )
+                })}
+
             </div>
-            <div className='flex justify-around border-y border-gray-400'>
-                <span>Mon,9 Aug</span>
-                <span className='flex gap-1'><CloudRain />Rain</span>
-                <span>H 45°C | L 25°C</span>
-            </div>
-            <div className='flex justify-around border-y border-gray-400'>
-                <span>Tue,9 Aug</span>
-                <span className='flex gap-1'><CloudRain />Rain</span>
-                <span>H 45°C | L 25°C</span>
-            </div>
-            <div className='flex justify-around border-y border-gray-400'>
-                <span>Wed,9 Aug</span>
-                <span className='flex gap-1'><CloudRain />Rain</span>
-                <span>H 45°C | L 25°C</span>
-            </div>
-            <div className='flex justify-around border-y border-gray-400'>
-                <span>Thu,9 Aug</span>
-                <span className='flex gap-1'><CloudRain />Rain</span>
-                <span>H 45°C | L 25°C</span>
-            </div>
-            <div className='flex justify-around border-y border-gray-400'>
-                <span>Fri,9 Aug</span>
-                <span className='flex gap-1'><CloudRain />Rain</span>
-                <span>H 45°C | L 25°C</span>
-            </div>
-            <div className='flex justify-around border-y border-gray-400'>
-                <span>Sat,9 Aug</span>
-                <span className='flex gap-1'><CloudRain />Rain</span>
-                <span>H 45°C | L 25°C</span>
-            </div>
+
         </div>
     )
 }

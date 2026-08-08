@@ -1,18 +1,29 @@
-import { CloudSun, Moon, Sun } from 'lucide-react'
+import { CloudSun } from "lucide-react"
 
 const Navbar = () => {
+
     return (
-        <nav className='flex justify-between px-2 py-6'>
-            <div className='flex gap-2'>
-                <CloudSun />
-                <span className='font-bold'>Weatherly</span>
+        <nav className="flex items-center justify-between px-5 pt-7 pb-4">
+
+            <div className="flex items-center gap-2">
+
+                <div className="p-2 rounded-xl bg-white/40">
+                    <CloudSun
+                        size={24}
+                        className="text-gray-700"
+                    />
+                </div>
+
+                <h1 className="text-xl font-bold text-gray-800">
+                    Weatherly
+                </h1>
+
             </div>
 
-            <div className='flex gap-2'>
-                <button className='font-bold'>°C | °F</button>
-                {/* <Sun/> */}
-                <Moon className='bg-gray-300 p-1 rounded-full' size={30} />
+            <div className="text-sm text-gray-600">
+                Weather
             </div>
+
         </nav>
     )
 }
